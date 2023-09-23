@@ -61,13 +61,15 @@ export const UserBar = ({ isToggleOpen, setToggleOpen }: UserBarProps) => {
       <Link href={"/cart"}>
         <CiShoppingCart size="2rem" />
       </Link>
-      <Image
-        src="/assets/generic-user.jpg"
-        alt=""
-        className="rounded-full"
-        width={32}
-        height={32}
-      />
+      <Link href={"/signin"}>
+        <Image
+          src="/assets/generic-user.jpg"
+          alt=""
+          className="rounded-full"
+          width={32}
+          height={32}
+        />
+      </Link>
       <motion.nav
         initial={false}
         animate={isToggleOpen ? "open" : "closed"}
@@ -78,7 +80,7 @@ export const UserBar = ({ isToggleOpen, setToggleOpen }: UserBarProps) => {
           variants={container}
         >
           <motion.div
-            className="bg-blue-100 top-[14px] right-[14px]
+            className="bg-stone-400 top-[14px] right-[14px]
           w-9 h-9 rounded-full absolute"
             variants={sidebar}
           />

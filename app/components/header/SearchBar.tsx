@@ -45,7 +45,7 @@ export const SearchBar = ({ isSearchOpen, setSearchOpen }: SearchBarProps) => {
   }
 
   return (
-    <div className=" flex-1 cursor-pointer  flex items-center rounded-full md:py-1 md:px-2 ">
+    <div className=" flex-1 cursor-pointer bg-stone-100 flex items-center rounded-full md:py-1 md:px-2 ">
       <button className="hidden md:block">
         <BiSearch size={20} className="opacity-50" />
       </button>
@@ -60,7 +60,7 @@ export const SearchBar = ({ isSearchOpen, setSearchOpen }: SearchBarProps) => {
       <div className="relative w-full h-full pr-2 hidden md:flex">
         <input
           type="text"
-          className="px-4 outline-none w-full bg-slate-100 md:block hidden"
+          className="px-4 outline-none w-full bg-stone-100 md:block hidden"
           placeholder="Search"
           onChange={(e) => setInputValue(e.target.value)}
           value={inputValue}
