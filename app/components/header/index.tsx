@@ -3,10 +3,13 @@ import { useEffect, useState } from "react"
 import { Navbar } from "./Navbar"
 import { SearchBar } from "./SearchBar"
 import { UserBar } from "./UserBar"
+import { useSession } from "next-auth/react"
 
 export const Header = () => {
   const [isSearchOpen, setSearchOpen] = useState(false)
   const [isToggleOpen, setToggleOpen] = useState(false)
+  const { data: session } = useSession()
+  console.log(session?.user)
 
   useEffect(() => {
     if (isSearchOpen) {

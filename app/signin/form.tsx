@@ -1,7 +1,7 @@
 "use client"
-import { sign } from "crypto"
-import { motion } from "framer-motion"
 import { useState } from "react"
+import SignInForm from "./SigninForm"
+import SignupForm from "./SignupForm"
 
 export default function FormSignup() {
   const [loginMode, setLoginMode] = useState<"signin" | "signup">("signin")
@@ -31,94 +31,8 @@ export default function FormSignup() {
         </button>
       </header>
 
-      {loginMode === "signup" && (
-        <div className="flex flex-col">
-          <label htmlFor="" className="mt-8 font-semibold text-xs">
-            FIRST NAME
-            <span className="text-red-700 p-1">*</span>
-          </label>
-          <input
-            type="text"
-            placeholder="First Name"
-            className="border-[1px] border-black p-4 mt-1"
-          />
-
-          <label htmlFor="" className="mt-8 font-semibold text-xs">
-            LAST NAME
-            <span className="text-red-700 p-1">*</span>
-          </label>
-          <input
-            type="text"
-            placeholder="Last Name"
-            className="border-[1px] border-black p-4 mt-1"
-          />
-
-          <label htmlFor="" className="mt-8 font-semibold text-xs">
-            EMAIL
-            <span className="text-red-700 p-1">*</span>
-          </label>
-          <input
-            type="text"
-            placeholder="Email"
-            className="border-[1px] border-black p-4 mt-1"
-          />
-
-          <label htmlFor="" className="mt-8 font-semibold text-xs">
-            PASSWORD
-            <span className="text-red-700 p-1">*</span>
-          </label>
-          <input
-            type="text"
-            placeholder="Password"
-            className="border-[1px] border-black p-4 mt-1"
-          />
-          <motion.button
-            className="bg-stone-800 mt-6 p-4 text-lg font-semibold text-white"
-            whileHover={{
-              backgroundColor: "#433633",
-              color: "#fff",
-              transition: { duration: 0.5 },
-            }}
-          >
-            REGISTER
-          </motion.button>
-        </div>
-      )}
-
-      {loginMode === "signin" && (
-        <div className="flex flex-col">
-          <label htmlFor="" className="mt-8 font-semibold text-xs">
-            EMAIL
-            <span className="text-red-700 p-1">*</span>
-          </label>
-          <input
-            type="text"
-            placeholder="Email"
-            className="border-[1px] border-black p-4 mt-1"
-          />
-
-          <label htmlFor="" className="mt-8 font-semibold text-xs">
-            PASSWORD
-            <span className="text-red-700 p-1">*</span>
-          </label>
-          <input
-            type="text"
-            placeholder="Password"
-            className="border-[1px] border-black p-4 mt-1"
-          />
-
-          <motion.button
-            className="bg-stone-800 mt-6 p-4 text-lg font-semibold text-white"
-            whileHover={{
-              backgroundColor: "#433633",
-              color: "#fff",
-              transition: { duration: 0.5 },
-            }}
-          >
-            LOGIN
-          </motion.button>
-        </div>
-      )}
+      {loginMode === "signin" && <SignupForm />}
+      {loginMode === "signup" && <SignInForm />}
     </div>
   )
 }
