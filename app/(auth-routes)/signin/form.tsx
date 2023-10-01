@@ -31,8 +31,8 @@ export default function FormSignup() {
         </button>
       </header>
 
-      {loginMode === "signin" && <SignupForm />}
-      {loginMode === "signup" && <SignInForm />}
+      {loginMode === "signin" && <SignInForm />}
+      {loginMode === "signup" && <SignupForm />}
     </div>
   )
 }

@@ -3,5 +3,9 @@ import { Header } from "./components/header"
 import { getCurrentUser } from "./lib/session"
 
 export default async function Home() {
-  return <Header />
+  return (
+    <>
+      <Header />
+    </>
+  )
 }

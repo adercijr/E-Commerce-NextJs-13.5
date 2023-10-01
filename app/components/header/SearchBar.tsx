@@ -3,6 +3,7 @@ import { motion } from "framer-motion"
 import { useRef, useState } from "react"
 import { AiOutlineClose } from "react-icons/ai"
 import { BiSearch } from "react-icons/bi"
+import { CiSearch } from "react-icons/ci"
 import { BsChevronLeft } from "react-icons/bs"
 
 type SearchBarProps = {
@@ -54,7 +55,7 @@ export const SearchBar = ({ isSearchOpen, setSearchOpen }: SearchBarProps) => {
         className="flex md:hidden w-8 h-8 justify-center items-center"
         onClick={handleSearchButton}
       >
-        <BiSearch size={"1.5rem"} className="opacity-50" />
+        <CiSearch size={"1.8rem"} className="md:opacity-50" />
       </button>
 
       <div className="relative w-full h-full pr-2 hidden md:flex">

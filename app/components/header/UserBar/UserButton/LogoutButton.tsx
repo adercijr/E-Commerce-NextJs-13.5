@@ -1,12 +1,10 @@
-"use-client"
-
-import { useState } from "react"
 import { motion } from "framer-motion"
-import { AiOutlineShopping } from "react-icons/ai"
+import { signOut } from "next-auth/react"
+import { useRouter } from "next/navigation"
 
-interface MenuMobileItemsProps {
+interface LogoutButtonProps {
   i: string
-  key: string
+  children: React.ReactElement
 }
 
 const variants = {
@@ -26,10 +24,20 @@ const variants = {
   },
 }
 
-export const MenuMobileItems = ({ i }: MenuMobileItemsProps) => {
-  const [hover, setHover] = useState(Boolean)
+export default function LogoutButton({ i, children }: LogoutButtonProps) {
+  const router = useRouter()
+  async function Logout() {
+    await signOut({
+      redirect: false,
+    })
+
+    router.replace("/")
+  }
+
   return (
     <motion.li
+      key={i}
+      onClick={Logout}
       variants={variants}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
@@ -38,15 +46,10 @@ export const MenuMobileItems = ({ i }: MenuMobileItemsProps) => {
       cursor-pointer 
       w-full
     "
-      onHoverStart={() => setHover(true)}
-      onHoverEnd={() => setHover(false)}
     >
       <div className="flex items-center">
         <div className="icon-placeholder flex justify-center items-center">
-          <AiOutlineShopping
-            size={"1.5rem"}
-            className={hover ? "opacity-100" : "opacity-20"}
-          />
+          {children}
         </div>
         <div className="text-placeholder">{i}</div>
       </div>
