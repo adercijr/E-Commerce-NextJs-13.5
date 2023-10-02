@@ -19,3 +19,53 @@ model User {
   password  String  @db.VarChar(255)
   isAdmin   Boolean @default(false)
 }
+
+model Product {
+  id           Int            @id @default(autoincrement())
+  title        String         @db.VarChar(255)
+  description  String         @db.Text()
+  ProductColor ProductColor[]
+
+  categoryId Int
+  Category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  styleId Int
+  Style   Style @relation(fields: [styleId], references: [id], onDelete: Cascade)
+
+  @@index([categoryId])
+  @@index([styleId])
+}
+
+model ProductColor {
+  id           Int            @id @default(autoincrement())
+  color        String
+  images       String         @db.Text
+  productId    Int
+  Product      Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  SizesProduct SizesProduct[]
+
+  @@index([productId])
+}
+
+model SizesProduct {
+  id             Int          @id @default(autoincrement())
+  size           String
+  iventory       Int
+  price          Float
+  productColorId Int
+  ProductColor   ProductColor @relation(fields: [productColorId], references: [id], onDelete: Cascade)
+
+  @@index([productColorId])
+}
+
+model Category {
+  id      Int       @id @default(autoincrement())
+  name    String    @db.VarChar(255)
+  Product Product[]
+}
+
+model Style {
+  id      Int       @id @default(autoincrement())
+  name    String    @db.VarChar(255)
+  Product Product[]
+}

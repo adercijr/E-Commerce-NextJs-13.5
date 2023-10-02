@@ -30,7 +30,7 @@ export default function LogoutButton({ i, children }: LogoutButtonProps) {
     await signOut({
       redirect: false,
     })
-
+    router.refresh()
     router.replace("/")
   }
 

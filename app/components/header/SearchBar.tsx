@@ -83,21 +83,21 @@ export const SearchBar = ({ isSearchOpen, setSearchOpen }: SearchBarProps) => {
       >
         <motion.div
           className={
-            "z-10 cursor-default flex top-0 left-0 max-w-md fixed overflow-hidden bg-blue-100"
+            "z-10 cursor-default flex top-0 left-0 max-w-md fixed overflow-hidden bg-white"
           }
           variants={container}
         >
           <div className="w-full flex p-4">
             <button
               onClick={() => setSearchOpen(false)}
-              className="bg-blue-400 h-8 w-8 flex items-center justify-center"
+              className="bg-stone-400 h-8 w-8 flex items-center justify-center"
             >
               <BsChevronLeft size={"1.2rem"} />
             </button>
             <div className="relative w-full">
               <input
                 type="text"
-                className="outline-none px-6 w-full h-8 "
+                className="bg-gray-100 outline-none px-6 w-full h-8 "
                 placeholder="Search"
                 ref={searchInput}
                 onChange={(e) => setInputValue(e.target.value)}

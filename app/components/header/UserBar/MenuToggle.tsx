@@ -14,7 +14,7 @@ const Path = (props: any) => (
 export const MenuToggle = ({ toggle }: any) => (
   <button
     onClick={toggle}
-    className="cursor-pointer absolute top-4 right-4
+    className="cursor-pointer absolute top-[22px] right-4
     w-8 h-8 rounded-full p-[5px]
   "
   >

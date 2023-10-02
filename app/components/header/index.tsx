@@ -4,6 +4,8 @@ import { Navbar } from "./Navbar"
 import { SearchBar } from "./SearchBar"
 import { UserBar } from "./UserBar/UserBar"
 import { useSession } from "next-auth/react"
+import Image from "next/image"
+import Link from "next/link"
 
 export const Header = () => {
   const [isSearchOpen, setSearchOpen] = useState(false)
@@ -20,9 +22,19 @@ export const Header = () => {
   }, [isSearchOpen, isToggleOpen])
 
   return (
-    <div className=" max-w-[1600px] flex items-center py-4 justify-between m-auto 2xl:px-0 md:px-8 px-2">
-      <div className=" flex flex-row 2xl:gap-32 lg:gap-20 md:gap-10 w-2/6 md:w-2/5 max-w-[500px]">
-        <div className="text-xl font-semibold">LOGO</div>
+    <div className="  max-w-[1600px] flex items-center py-2 justify-between m-auto 2xl:px-0 md:px-8 px-2">
+      <div className=" flex flex-row  lg:gap-10 md:gap-0 w-2/6 md:w-2/5 max-w-[500px]">
+        <div className=" 2xl:mr-4">
+          <Link href={"/"}>
+            <Image
+              src="/assets/logo2.png"
+              width={100}
+              height={100}
+              alt="logo"
+            />
+          </Link>
+        </div>
+
         <Navbar />
       </div>
       <div className="flex-1 ">

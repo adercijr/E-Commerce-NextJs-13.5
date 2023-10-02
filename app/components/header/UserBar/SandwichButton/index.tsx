@@ -1,6 +1,9 @@
 import { motion } from "framer-motion"
 import { Navigation } from "../Navigation"
 import { MenuToggle } from "../MenuToggle"
+import { AiOutlineShopping } from "react-icons/ai"
+import { RxExit } from "react-icons/rx"
+import { PiUserLight } from "react-icons/pi"
 
 type SandwichButtonProps = {
   isToggleOpen: Boolean
@@ -76,11 +79,27 @@ export default function SandwichButton({
         variants={container}
       >
         <motion.div
-          className="border-2 bg-white top-[14px] right-[14px]
+          className="border-2 bg-white top-[18px] right-[14px]
           w-9 h-9 rounded-full absolute"
           variants={sidebar}
         />
-        <Navigation items={["Shop", "Filters", "My Products"]} />
+        <main className=" flex relative flex-col items-stretch p-10 gap-10">
+          <Navigation
+            items={[
+              {
+                title: "MyOrders",
+                icon: <AiOutlineShopping />,
+                url: "/myorders",
+              },
+              { title: "Profile", icon: <PiUserLight />, url: "/profile" },
+              {
+                title: "Sign Out",
+                icon: <RxExit />,
+                url: "/signin",
+              },
+            ]}
+          />
+        </main>
         <MenuToggle toggle={() => setToggleOpen(!isToggleOpen)} />
       </motion.div>
     </motion.nav>
