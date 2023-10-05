@@ -2,25 +2,41 @@
 import axios from "axios"
 import useAxios from "axios-hooks"
 import { SyntheticEvent, useEffect, useState } from "react"
+import { MutatingDots, ThreeDots } from "react-loader-spinner"
 import Popup from "reactjs-popup"
+import { FaAngleDoubleLeft, FaAngleDoubleRight } from "react-icons/fa"
 
 interface ICategories {
   id: number
   name: string
 }
 
+const apiUrl = "http://localhost:3000/api/"
+
 export default function Category() {
+  const ElementsPerPage = 5
   const [categoryInput, setCategoryInput] = useState("")
-  const [categoryDelete, setCategoryDelete] = useState<Number>()
+  const [categoryDelete, setCategoryDelete] = useState<number>()
   const [alredyExist, setAlredyExist] = useState(false)
   const [editingCategoryId, setEditingCategoryId] = useState<Number>()
   const [mode, setMode] = useState<"create" | "edit">("create")
-  const [{ data: categories, loading, error }, refetch] = useAxios<
-    ICategories[]
-  >("api/product/categories")
+  const [{ data, loading, error }, refetch] = useAxios<ICategories[]>(
+    `${apiUrl}/product/categories`
+  )
+  const [categories, setCategories] = useState<ICategories[]>()
+  const [currentPage, setCurrentPage] = useState(0)
+
+  useEffect(() => {
+    const pagination = data?.slice(
+      currentPage * ElementsPerPage,
+      currentPage * ElementsPerPage + ElementsPerPage
+    )
+    setCategories(pagination)
+  }, [currentPage, data])
 
   const [open, setOpen] = useState(false)
   const closeModal = () => setOpen(false)
+
   function openModal(id: number) {
     setOpen(true)
     setCategoryDelete(id)
@@ -33,7 +49,7 @@ export default function Category() {
   }
 
   const checkCategoryAlredyExists = async (category: string) => {
-    const { data } = await axios.get(`api/product/category/${category}`)
+    const { data } = await axios.get(`${apiUrl}/product/category/${category}`)
     if (data) {
       setAlredyExist(true)
       return true
@@ -49,7 +65,7 @@ export default function Category() {
     if (exists) {
       return
     } else {
-      await axios.post("api/product/category", { name: categoryInput })
+      await axios.post(`${apiUrl}/product/category`, { name: categoryInput })
       refetch()
       clean()
     }
@@ -60,7 +76,7 @@ export default function Category() {
     if (exists) {
       return
     } else {
-      await axios.put("api/product/category", {
+      await axios.put(`${apiUrl}/product/category`, {
         id: editingCategoryId,
         name: categoryInput,
       })
@@ -70,12 +86,13 @@ export default function Category() {
   }
 
   function handleEditMode(id: number, name: string) {
+    console.log(ElementsPerPage * currentPage + ElementsPerPage)
     setCategoryInput(name)
     setEditingCategoryId(id)
     setMode("edit")
   }
   async function handleDelete(id: number | undefined) {
-    await axios.delete("api/product/category", {
+    await axios.delete(`${apiUrl}/product/category`, {
       params: { id },
     })
     closeModal()
@@ -104,13 +121,16 @@ export default function Category() {
               value={categoryInput}
             />
             {mode === "create" && (
-              <button type="submit" className="bg-green-700 text-gray-200  p-2">
+              <button
+                type="submit"
+                className="bg-green-500 active:bg-green-400   p-2"
+              >
                 Create
               </button>
             )}
             {mode === "edit" && (
               <>
-                <button type="submit" className="bg-yellow-500 py-2 px-4 mr-3">
+                <button type="submit" className="bg-yellow-400 py-2 px-4 mr-3">
                   Edit
                 </button>
                 <button
@@ -131,35 +151,85 @@ export default function Category() {
 
       <hr />
 
-      <table className="shadow-md">
-        <tr className="bg-stone-700 text-gray-200 h-10">
-          <th>Name</th>
-          <th className="">Actions</th>
-        </tr>
-        {categories &&
-          categories.map((cat) => {
-            return (
-              <tr key={cat.id} className="h-10 border-y-2 hover:bg-stone-200 ">
-                <th className="font-semibold">{cat.name}</th>
-                <th className="gap-2 flex justify-center">
-                  <button
-                    className="bg-yellow-500 active:bg-yellow-600 px-5 font-semibold"
-                    onClick={() => handleEditMode(cat.id, cat.name)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="bg-red-400 
+      {!loading && (
+        <table className="shadow-md">
+          <tr className="bg-stone-700 text-gray-200 h-10">
+            <th>Name</th>
+            <th className="">Actions</th>
+          </tr>
+          {categories &&
+            categories.map((cat) => {
+              return (
+                <tr
+                  key={cat.id}
+                  className="h-10 border-y-2 hover:bg-stone-200 "
+                >
+                  <th className="font-semibold">{cat.name}</th>
+                  <th className="gap-2 flex justify-center">
+                    <button
+                      className="bg-yellow-400 active:bg-yellow-500   px-5 font-semibold"
+                      onClick={() => handleEditMode(cat.id, cat.name)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="bg-red-400 
                   active:bg-red-500 py-1 px-4 font-semibold"
-                    onClick={() => openModal(cat.id)}
-                  >
-                    Delete
-                  </button>
-                </th>
-              </tr>
-            )
-          })}
-      </table>
+                      onClick={() => openModal(cat.id)}
+                    >
+                      Delete
+                    </button>
+                  </th>
+                </tr>
+              )
+            })}
+          <tr className="bg-stone-700 text-gray-200 h-10">
+            <td colSpan={2}>
+              <div className="w-[175px] float-right my-1 mx-4 flex justify-between ">
+                <div>
+                  {" "}
+                  {currentPage >= 1 && (
+                    <button
+                      className="flex justify-center items-center gap-2"
+                      onClick={() => setCurrentPage(currentPage - 1)}
+                    >
+                      <FaAngleDoubleLeft />
+                      Previous
+                    </button>
+                  )}
+                </div>
+                <div>
+                  {data &&
+                    data?.length >
+                      ElementsPerPage * currentPage + ElementsPerPage && (
+                      <button
+                        className="flex justify-center items-center gap-2"
+                        onClick={() => setCurrentPage(currentPage + 1)}
+                      >
+                        Next
+                        <FaAngleDoubleRight />
+                      </button>
+                    )}
+                </div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      )}
+
+      {loading && (
+        <div className="w-full flex justify-center">
+          <ThreeDots
+            color=" rgb(68 64 60 / var(--tw-bg-opacity))"
+            height="80"
+            width="80"
+            radius="9"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            visible={true}
+          />
+        </div>
+      )}
 
       <Popup open={open} closeOnDocumentClick onClose={closeModal}>
         <div
